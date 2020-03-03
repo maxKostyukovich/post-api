@@ -3,7 +3,7 @@ import UnauthorizedError from '../errorHandlers/UnauthorizedError';
 import { JWT } from '../constants';
 module.exports = (req, res, next) => {
     try {
-        const authHeader = req.get('Authorization');
+        const authHeader = req.headers.authorization;
         if(!authHeader){
             return next(new UnauthorizedError());
         }

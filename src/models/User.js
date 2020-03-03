@@ -21,9 +21,17 @@ module.exports = (sequelize, DataTypes) => {
         country: {
             type: DataTypes.STRING
         },
+        AccountId: {
+            type: DataTypes.INTEGER,
+            onDelete: 'CASCADE',
+            references: {
+                key: 'id',
+                model: 'Accounts',
+            },
+        },
     });
     User.associate = function (models) {
-        User.hasOne(models.Account)
+        User.belongsTo(models.Account, { foreignKey: 'AccountId' })
     };
     return User;
 };

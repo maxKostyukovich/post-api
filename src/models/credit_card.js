@@ -12,10 +12,18 @@ module.exports = (sequelize, DataTypes) => {
     cvv_card: {
       type: DataTypes.STRING,
       allowNull: false,
-    }
+    },
+    AccountId: {
+      type: DataTypes.INTEGER,
+      onDelete: 'CASCADE',
+      references: {
+        key: 'id',
+        model: 'Accounts',
+      },
+    },
   }, {});
   Credit_card.associate = function(models) {
-      Credit_card.hasOne(models.Account);
+      Credit_card.belongsTo(models.Account, { foreignKey: 'AccountId'});
   };
   return Credit_card;
 };

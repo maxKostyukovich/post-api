@@ -11,10 +11,11 @@ module.exports.create = async (req, res, next) => {
     transaction = await sequelize.transaction();
     const account = await Account.findByPk(req.payload.id);
     if(!account){
-      throw new NotFoundError('Account not found')
+      return next( new NotFoundError('Account not found'))
     }
+    await User.destroy({where: { AccountId: account.id }}, transaction);
+    req.body.AccountId = account.id;
     const user = await User.create(req.body, { transaction });
-    await user.setAccount(account);
     await transaction.commit();
     res.send(user);
   }catch (e) {
@@ -34,7 +35,7 @@ module.exports.get = async (req, res, next) => {
 };
 
 module.exports.getAll = async (req, res, next) => {
-  const users = await User.findAll({attributes: {exclude: ["createdAt", "updatedAt"]}})
+  const users = await User.findAll({attributes: {exclude: ["createdAt", "updatedAt"]}});
   if(!users){
     return next(new NotFoundError('User not found'))
   }
@@ -50,7 +51,7 @@ module.exports.update = async (req, res, next) => {
     }
     res.status(200).send('ok');
   } catch (err) {
-    next(new DBError())
+    next(err)
   }
 };
 
@@ -61,7 +62,6 @@ module.exports.delete = async (req, res, next) => {
       return next(new NotFoundError('User not found'));
     }
     const numOfModified = await User.destroy({where: {id: req.params.id}});
-    await user.setAccount(null);
     res.send({modified: numOfModified});
   } catch (err) {
     next(err);

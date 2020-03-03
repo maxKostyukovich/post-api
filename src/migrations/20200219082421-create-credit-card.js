@@ -20,6 +20,14 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      AccountId: {
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          key: 'id',
+          model: 'Accounts',
+        },
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

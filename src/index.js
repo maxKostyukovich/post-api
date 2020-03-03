@@ -12,3 +12,4 @@ app.use(express.json());
 app.use('/api', router);
 app.use(errorHandler);
 app.listen(PORT);
+module.exports = app;

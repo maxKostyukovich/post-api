@@ -1,22 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Account = sequelize.define('Account', {
-    CreditCardId: {
-      type: DataTypes.INTEGER,
-      onDelete: 'CASCADE',
-      references: {
-        key: 'id',
-        model: 'Credit_cards',
-      },
-    },
-    UserId: {
-      type: DataTypes.INTEGER,
-      onDelete: 'CASCADE',
-      references: {
-        key: 'id',
-        model: 'Users',
-      },
-    },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -35,8 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   Account.associate = function(models) {
-    Account.belongsTo(models.Credit_card, { foreignKey: 'CreditCardId' } );
-    Account.belongsTo(models.User, { foreignKey: 'UserId' });
+    Account.hasOne(models.User);
+    Account.hasOne(models.Credit_card);
     Account.hasMany(models.Post, { onDelete: 'CASCADE', hooks: true });
     Account.hasMany(models.Comment, { onDelete: 'CASCADE', hooks: true });
   };

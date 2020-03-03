@@ -3,6 +3,8 @@ import { sequelize } from '../models';
 import bcrypt from 'bcryptjs';
 import Unauthorized from '../errorHandlers/UnauthorizedError';
 import { generateAccessToken } from '../utils/generateToken';
+import ValidationErr from '../errorHandlers/ValidationError'
+import {ValidationError} from "sequelize";
 const Account = db.Account;
 module.exports.create = async (req, res, next) => {
     try {
