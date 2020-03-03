@@ -8,8 +8,8 @@ module.exports.create = async (req, res, next) => {
     try {
         transaction = await sequelize.transaction();
         const account = await Account.findByPk(req.payload.id);
+        req.body.AccountId = account.id;
         const card = await CreditCard.create(req.body, {transaction});
-        await card.setAccount(account);
         await account.update({isPaid: true}, { transaction });
         await transaction.commit();
         res.send(card);

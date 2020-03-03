@@ -22,6 +22,14 @@ module.exports = {
       country: {
         type: Sequelize.STRING
       },
+      AccountId: {
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          key: 'id',
+          model: 'Accounts',
+        },
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
