@@ -12,4 +12,5 @@ app.use(express.json());
 app.use('/api', router);
 app.use(errorHandler);
 app.listen(PORT);
+console.log('Server has started');
 module.exports = app;
